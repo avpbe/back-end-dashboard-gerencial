@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask-cors = "*"
+flask-sqlalchemy = "*"
+nose2 = "*"
+pydantic = "*"
+sqlalchemy-utils = "*"
+werkzeug = "==2.3.8"
+flask-openapi3 = {extras = ["swagger"], version = "*"}
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

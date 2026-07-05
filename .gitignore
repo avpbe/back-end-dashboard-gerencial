@@ -1,0 +1,27 @@
+# Ambientes Virtuais
+venv/
+env/
+.venv/
+
+# Arquivos de cache e compilados do Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# # Banco de dados
+# database/
+# *.db
+# *.sqlite3
+
+# Arquivos de configuração de IDEs
+.vscode/
+.idea/
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de dependências e pacotes
+dist/
+build/
+*.egg-info/
