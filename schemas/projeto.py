@@ -1,5 +1,5 @@
 from pydantic import BaseModel, ConfigDict
-from typing import List, Optional
+from typing import Any, List, Optional
 from datetime import datetime
 from models import StatusProjeto
 from schemas.colaborador import ColaboradorViewSchema
@@ -45,7 +45,7 @@ class ListagemProjetosSchema(BaseModel):
     """ Define como uma listagem de projetos será retornada. """
     projetos: List[ProjetoViewSchema]
 
-def apresenta_projetos(projetos: List[any]):
+def apresenta_projetos(projetos: List[Any]):
     """ Retorna uma representação do projeto seguindo o schema definido em ProjetoViewSchema. """
     result = []
     for proj in projetos:

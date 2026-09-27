@@ -10,6 +10,7 @@ Esta é a API backend para o dashboard de gerenciamento de projetos. Desenvolvid
 - **SQLAlchemy**: ORM para interação com o banco de dados.
 - **Pydantic**: Para validação de dados e definição de schemas.
 - **SQLite**: Banco de dados relacional leve e baseado em arquivo.
+- **API RandomUser**: Serviço externo utilizado para geração e sugestão de colaboradores fictícios.
 
 ---
 
@@ -26,7 +27,7 @@ Clone o repositório e navegue até a pasta da API. É altamente recomendado cri
 
 ```bash
 # Navegue até a pasta da API
-cd path/to/your/project/engineer_requisitions/api
+cd path/to/your/project/back-end-dashboard-gerencial
 
 # Crie um ambiente virtual
 python -m venv env
@@ -63,3 +64,16 @@ Com a API em execução, acesse a documentação interativa do Swagger no seu na
 **http://127.0.0.1:5000/openapi**
 
 Lá, você pode visualizar e testar todas as rotas disponíveis.
+
+---
+
+## Integração com API Externa
+
+A API conta com uma integração com a **[RandomUser API](https://randomuser.me/)** para sugerir candidatos a colaboradores com dados complementares gerados para o contexto de engenharia:
+
+- **Endpoint:** `GET /colaboradores/externos`
+- **Parâmetros de Consulta (Query Params):**
+  - `page` *(opcional, default: `1`)*: Página de resultados a consultar.
+  - `results` *(opcional, default: `6`)*: Quantidade de colaboradores a retornar.
+  - `nat` *(opcional, default: `br`)*: Nacionalidade dos perfis gerados.
+- **Comportamento:** A rota consulta o serviço externo, filtra perfis com nomes já existentes no banco local para evitar duplicidades e associa dinamicamente cargo, disciplina e atribuição.
