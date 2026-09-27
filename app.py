@@ -265,15 +265,16 @@ def get_colaboradores_externos(query: ColaboradorExternoBuscaSchema):
 def update_colaborador(query: ColaboradorBuscaSchema, body: ColaboradorUpdateSchema):
     """Atualiza um Colaborador existente a partir do nome informado.
     """
+    nome_busca = unquote(unquote(query.nome))
     session = Session()
-    colaborador = session.query(Colaborador).filter(Colaborador.nome == query.nome).first()
+    colaborador = session.query(Colaborador).filter(Colaborador.nome == nome_busca).first()
 
     if not colaborador:
         session.close()
         return {"message": "Colaborador não encontrado."}, 404
 
-    # Atualiza os campos do colaborador se eles foram fornecidos no corpo da requisição
-    update_data = body.model_dump(exclude_unset=True)
+    # Atualiza os campos do colaborador se foram fornecidos e não forem nulos
+    update_data = body.model_dump(exclude_unset=True, exclude_none=True)
     for key, value in update_data.items():
         setattr(colaborador, key, value)
 
