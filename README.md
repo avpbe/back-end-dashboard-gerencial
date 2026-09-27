@@ -61,8 +61,6 @@ Para iniciar o servidor de desenvolvimento, use o comando `flask run`. Na primei
 
 O servidor estará rodando em `http://127.0.0.1:5000`.
 
----
-
 ### Opção 2: Execução Local (Com Docker)
 
 Caso prefira rodar a aplicação em um container Docker, dispensando a necessidade de configurar o ambiente Python localmente:
@@ -80,8 +78,10 @@ docker build -t api-dashboard .
 Inicie o container mapeando a porta 5000:
 
 ```bash
-docker run -d -p 5000:5000 --name api-dashboard-container api-dashboard
+docker run -p 5000:5000 --name api-dashboard-container api-dashboard
 ```
+
+---
 
 ### Acessando a Documentação
 
