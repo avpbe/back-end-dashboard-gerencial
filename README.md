@@ -14,16 +14,19 @@ Esta é a API backend para o dashboard de gerenciamento de projetos. Desenvolvid
 
 ---
 
-## Instruções de Instalação e Execução
+## Pré-requisitos
 
-### Pré-requisitos
-
-- Python 3.8 ou superior.
-- `pip` e `virtualenv` instalados.
+- Python 3.8 ou superior (para execução local).
+- `pip` e `virtualenv` instalados (para execução local).
 - **Docker** *(opcional, caso queira executar a aplicação via container)*.
 
-### 1. Configuração do Ambiente
+---
 
+## Como Rodar
+
+### Opção 1: Execução Local (Sem Docker)
+
+#### 1. Configuração do Ambiente
 Clone o repositório e navegue até a pasta da API. É altamente recomendado criar um ambiente virtual.
 
 ```bash
@@ -40,7 +43,7 @@ python -m venv env
 source env/bin/activate
 ```
 
-### 2. Instalação das Dependências
+#### 2. Instalação das Dependências
 
 Com o ambiente virtual ativado, instale as bibliotecas necessárias a partir do arquivo `requirements.txt`.
 
@@ -48,7 +51,7 @@ Com o ambiente virtual ativado, instale as bibliotecas necessárias a partir do 
 (env)$ pip install -r requirements.txt
 ```
 
-### 3. Execução da API
+#### 3. Execução da API
 
 Para iniciar o servidor de desenvolvimento, use o comando `flask run`. Na primeira vez que a API for executada, o arquivo de banco de dados `requisicoes.db` será criado automaticamente.
 
@@ -60,11 +63,11 @@ O servidor estará rodando em `http://127.0.0.1:5000`.
 
 ---
 
-## Executando com Docker
+### Opção 2: Execução Local (Com Docker)
 
 Caso prefira rodar a aplicação em um container Docker, dispensando a necessidade de configurar o ambiente Python localmente:
 
-### 1. Construir a Imagem
+#### 1. Construir a Imagem
 
 Na raiz do projeto (onde está o `Dockerfile`), execute:
 
@@ -72,7 +75,7 @@ Na raiz do projeto (onde está o `Dockerfile`), execute:
 docker build -t api-dashboard .
 ```
 
-### 2. Iniciar o Container
+#### 2. Iniciar o Container
 
 Inicie o container mapeando a porta 5000:
 
@@ -80,7 +83,7 @@ Inicie o container mapeando a porta 5000:
 docker run -d -p 5000:5000 --name api-dashboard-container api-dashboard
 ```
 
-### 4. Acessando a Documentação
+### Acessando a Documentação
 
 Com a API em execução, acesse a documentação interativa do Swagger no seu navegador:
 
