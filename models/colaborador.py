@@ -24,6 +24,7 @@ class Colaborador(Base):
     cargo = Column(SQLAlchemyEnum(CargoColaborador), nullable=False)
     disciplina = Column(String(100))
     atribuicao = Column(SQLAlchemyEnum(AtribuicaoColaborador), nullable=False)
+    foto = Column(String(255), nullable=True)
 
     # Relacionamento com Projeto
     projetos = relationship("Projeto", back_populates="colaborador")

@@ -1,4 +1,4 @@
 
-from schemas.colaborador import ColaboradorSchema, ColaboradorBuscaSchema, ColaboradorViewSchema, ColaboradorUpdateSchema, ListagemColaboradoresSchema, ColaboradorDelSchema, apresenta_colaboradores
+from schemas.colaborador import ColaboradorSchema, ColaboradorBuscaSchema, ColaboradorViewSchema, ColaboradorUpdateSchema, ListagemColaboradoresSchema, ColaboradorDelSchema, ColaboradorExternoBuscaSchema, apresenta_colaboradores
 from schemas.projeto import ProjetoSchema, ProjetoBuscaSchema, ProjetoViewSchema, ProjetoUpdateSchema, ListagemProjetosSchema, apresenta_projetos
 from schemas.error import ErrorSchema
