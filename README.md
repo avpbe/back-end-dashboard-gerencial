@@ -20,6 +20,7 @@ Esta é a API backend para o dashboard de gerenciamento de projetos. Desenvolvid
 
 - Python 3.8 ou superior.
 - `pip` e `virtualenv` instalados.
+- **Docker** *(opcional, caso queira executar a aplicação via container)*.
 
 ### 1. Configuração do Ambiente
 
@@ -57,6 +58,28 @@ Para iniciar o servidor de desenvolvimento, use o comando `flask run`. Na primei
 
 O servidor estará rodando em `http://127.0.0.1:5000`.
 
+---
+
+## Executando com Docker
+
+Caso prefira rodar a aplicação em um container Docker, dispensando a necessidade de configurar o ambiente Python localmente:
+
+### 1. Construir a Imagem
+
+Na raiz do projeto (onde está o `Dockerfile`), execute:
+
+```bash
+docker build -t api-dashboard .
+```
+
+### 2. Iniciar o Container
+
+Inicie o container mapeando a porta 5000:
+
+```bash
+docker run -d -p 5000:5000 --name api-dashboard-container api-dashboard
+```
+
 ### 4. Acessando a Documentação
 
 Com a API em execução, acesse a documentação interativa do Swagger no seu navegador:
@@ -77,3 +100,18 @@ A API conta com uma integração com a **[RandomUser API](https://randomuser.me/
   - `results` *(opcional, default: `6`)*: Quantidade de colaboradores a retornar.
   - `nat` *(opcional, default: `br`)*: Nacionalidade dos perfis gerados.
 - **Comportamento:** A rota consulta o serviço externo, filtra perfis com nomes já existentes no banco local para evitar duplicidades e associa dinamicamente cargo, disciplina e atribuição.
+
+---
+
+## Arquitetura do Sistema
+
+Visão geral da comunicação e do fluxo de dados entre a Single Page Application (SPA), o servidor web Nginx, a API Backend e as integrações externas:
+
+<div align="center">
+  <img src="assets/arquitetura.png" alt="Fluxograma da Arquitetura do Sistema" width="800">
+  <p><em>Fluxograma da arquitetura e fluxo de integração entre os componentes</em></p>
+</div>
+
+> **Nota**: Quando tiver a imagem do fluxograma pronta, salve-a no caminho indicado (por exemplo, criando uma pasta `assets/` e nomeando o arquivo como `arquitetura.png`) ou altere o atributo `src` para o caminho onde a imagem for salva.
+
+---
