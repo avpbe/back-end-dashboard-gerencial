@@ -1,3 +1,6 @@
+import json
+import random
+import urllib.request
 from flask_openapi3 import OpenAPI, Info, Tag
 from flask import redirect, request
 from urllib.parse import unquote
@@ -5,10 +8,10 @@ from urllib.parse import unquote
 from sqlalchemy.orm import joinedload
 from sqlalchemy.exc import IntegrityError
  
-from models import Session, Projeto, Colaborador, Base, engine, StatusProjeto
+from models import Session, Projeto, Colaborador, Base, engine, StatusProjeto, CargoColaborador, AtribuicaoColaborador
 from schemas import (
     ProjetoSchema, ProjetoBuscaSchema, ProjetoUpdateSchema, ProjetoViewSchema, ListagemProjetosSchema, apresenta_projetos,
-    ColaboradorSchema, ColaboradorBuscaSchema, ColaboradorUpdateSchema, ColaboradorDelSchema, ColaboradorViewSchema, ListagemColaboradoresSchema, apresenta_colaboradores,
+    ColaboradorSchema, ColaboradorBuscaSchema, ColaboradorUpdateSchema, ColaboradorDelSchema, ColaboradorViewSchema, ListagemColaboradoresSchema, ColaboradorExternoBuscaSchema, apresenta_colaboradores,
     ErrorSchema
 )
 from flask_cors import CORS
@@ -175,7 +178,8 @@ def add_colaborador(body: ColaboradorSchema):
         nome=body.nome,
         cargo=body.cargo,
         disciplina=body.disciplina,
-        atribuicao=body.atribuicao
+        atribuicao=body.atribuicao,
+        foto=body.foto
     )
 
     try:
@@ -209,6 +213,52 @@ def get_colaboradores():
         return {"colaboradores": []}, 200
     else:
         return apresenta_colaboradores(colaboradores), 200
+
+@app.get('/colaboradores/externos', tags=[colaborador_tag],
+         responses={"200": None, "400": ErrorSchema})
+def get_colaboradores_externos(query: ColaboradorExternoBuscaSchema):
+    """Busca sugestões de colaboradores através da API externa RandomUser
+    """
+    page = query.page or 1
+    results = query.results or 6
+    nat = query.nat or "br"
+    url = f"https://randomuser.me/api/?page={page}&results={results}&nat={nat}&seed=dashboard_eng"
+    try:
+        # Busca os nomes já cadastrados no banco para evitar duplicatas na listagem externa
+        session = Session()
+        try:
+            nomes_cadastrados = {nome.strip().lower() for (nome,) in session.query(Colaborador.nome).all()}
+        finally:
+            session.close()
+
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req) as response:
+            data = json.loads(response.read().decode('utf-8'))
+
+        cargos = [c.value for c in CargoColaborador]
+        atribuicoes = [a.value for a in AtribuicaoColaborador]
+        disciplinas = ["Front-End", "Back-End", "Full Stack", "User Experience (UX)", "Quality Assurance (QA)"]
+
+        candidatos = []
+        for item in data.get('results', []):
+            nome_completo = f"{item['name']['first']} {item['name']['last']}"
+            # Ignora candidatos que já existem na base de dados
+            if nome_completo.strip().lower() in nomes_cadastrados:
+                continue
+
+            # Semente determinística baseada no nome: garante consistência nos atributos
+            rng = random.Random(nome_completo)
+            candidatos.append({
+                "nome": nome_completo,
+                "foto": item.get('picture', {}).get('medium', ''),
+                "cargo": rng.choice(cargos),
+                "disciplina": rng.choice(disciplinas),
+                "atribuicao": rng.choice(atribuicoes)
+            })
+        return {"candidatos": candidatos, "page": page, "results": results}, 200
+    except Exception as e:
+        return {"message": f"Erro ao consultar a API externa: {str(e)}"}, 400
+
 
 @app.put('/colaborador', tags=[colaborador_tag],
             responses={"200": ColaboradorViewSchema, "404": ErrorSchema, "400": ErrorSchema, "409": ErrorSchema})

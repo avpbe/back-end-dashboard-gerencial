@@ -8,10 +8,17 @@ class ColaboradorSchema(BaseModel):
     cargo: CargoColaborador = CargoColaborador.SENIOR
     disciplina: str = "Estruturas"
     atribuicao: AtribuicaoColaborador = AtribuicaoColaborador.ELABORADOR
+    foto: Optional[str] = None
 
 class ColaboradorBuscaSchema(BaseModel):
     """ Define como deve ser a estrutura que representa a busca por nome. """
     nome: str = "João da Silva"
+
+class ColaboradorExternoBuscaSchema(BaseModel):
+    """ Define os parâmetros de consulta para a API externa RandomUser """
+    page: Optional[int] = 1
+    results: Optional[int] = 6
+    nat: Optional[str] = "br"
 
 class ColaboradorUpdateSchema(BaseModel):
     """ Define como um colaborador pode ser atualizado. Todos os campos são opcionais. """
@@ -19,6 +26,7 @@ class ColaboradorUpdateSchema(BaseModel):
     cargo: Optional[CargoColaborador] = None
     disciplina: Optional[str] = None
     atribuicao: Optional[AtribuicaoColaborador] = None
+    foto: Optional[str] = None
 
 class ColaboradorViewSchema(BaseModel):
     """ Define como um colaborador será retornado """
@@ -29,6 +37,7 @@ class ColaboradorViewSchema(BaseModel):
     cargo: CargoColaborador = CargoColaborador.SENIOR
     disciplina: str = "Estruturas"
     atribuicao: AtribuicaoColaborador = AtribuicaoColaborador.ELABORADOR
+    foto: Optional[str] = None
 
 class ListagemColaboradoresSchema(BaseModel):
     """ Define como uma listagem de colaboradores será retornada. """
