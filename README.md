@@ -108,7 +108,7 @@ A API conta com uma integração com a **[RandomUser API](https://randomuser.me/
 
 ## Arquitetura do Sistema
 
-Visão geral da comunicação e do fluxo de dados entre a Single Page Application (SPA), o servidor web Nginx, a API Backend e as integrações externas:
+Visão geral da comunicação e do fluxo de dados entre a Single Page Application (SPA), a API Backend e as integrações externas:
 
 <div align="center">
   <img src="assets/arquitetura.png" alt="Fluxograma da Arquitetura do Sistema" width="800">
